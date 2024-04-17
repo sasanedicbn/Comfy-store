@@ -57,3 +57,17 @@ img {
   height: 700px;
   object-fit: cover;
 }
+/* About */
+.about-container {
+  margin-top: 40px;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  padding: 20px 350px;
+}
+
+.comfy-title {
+  background-color: rgb(75, 75, 255); 
+  padding: 10px;
+}
+
