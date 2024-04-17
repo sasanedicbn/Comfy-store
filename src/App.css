@@ -19,11 +19,13 @@ body {
 
 .text {
   width: 50%;
-  padding: 0px 40px;
+  padding: 0px 100px;
 }
 
 .image {
+ margin-top: 80px;
   width: 50%;
+  height: 105%;
 }
 
 h1 {
@@ -54,7 +56,7 @@ button:hover {
 
 img {
   width: 80%;
-  height: 700px;
+  height: 100%;
   object-fit: cover;
 }
 /* About */

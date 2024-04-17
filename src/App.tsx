@@ -7,8 +7,12 @@ import Products from './components/Products'
 import NavBar from './components/NavBar'
 
 const router = createBrowserRouter([
-  {path: '/', element: <NavBar/>},
-  {path: '/products', element: <Products/> }
+  {path: '/', element: <NavBar/>, children: [
+    {path: '/', element: <Home/> },
+    {path: '/about', element: <About/> },
+    {path: '/products', element: <Products/> }
+  ]},
+ 
 ])
 function App() {
 
