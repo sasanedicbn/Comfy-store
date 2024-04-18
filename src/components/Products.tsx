@@ -48,29 +48,6 @@ const Products = () => {
       const { name, value} = event.target;
       setParams((prevState) => ({...prevState, [name]: value}))
     }
-    // const priceHandler = (e) => {
-    //     setParams(prevParams => ({ ...prevParams, price: e.target.value }));
-    // };
-
-    // const isCheckedHandler = () => {
-    //     setParams(prevParams => ({ ...prevParams, shipping: !prevParams.shipping }));
-    // };
-
-    // const productHandler = (e) => {
-    //     setParams(prevParams => ({ ...prevParams, search: e.target.value }));
-    // };
-
-    // const categoryHandler = (e) => {
-    //     setParams(prevParams => ({ ...prevParams, category: e.target.value }));
-    // };
-
-    // const companyHandler = (e) => {
-    //     setParams(prevParams => ({ ...prevParams, company: e.target.value }));
-    // };
-
-    // const sortHandler = (e) => {
-    //     setParams(prevParams => ({ ...prevParams, order: e.target.value }));
-    // };
     console.log(params)
   
     return (
