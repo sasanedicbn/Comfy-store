@@ -145,7 +145,7 @@ const Products = () => {
                 <div className="form-control">
                     <label htmlFor="price" className="label cursor-pointer">
                         <span className="label-text capitalize">Select price</span>
-                        <span className="current-price">$1,000.00</span>
+                        <span className="current-price">${params.price}</span>
                     </label>
                     <input
                         type="range"
