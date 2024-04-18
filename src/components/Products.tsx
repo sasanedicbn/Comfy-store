@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Products = () => {
     const [data, setData] = useState([])
+    const [params, setParams] = useState({
+        category: 'all',
+        company: 'all',
+        order: 'a-z',
+        search: '',
+        price: 1000, 
+        shipping: false
+    })
     const fetchProducts = async () => {
         try {
           const response = await fetch('https://strapi-store-server.onrender.com/api/products?');
@@ -17,6 +25,9 @@ const Products = () => {
           return null; 
         }
       }
+      useEffect(() => {
+       fetchProducts()
+      }, [])
       console.log(data)
     return(
         <>
@@ -88,7 +99,6 @@ const Products = () => {
       <button type="submit" className="btn btn-primary  green">Reset</button>
     </form>
     <div className="products">
-      <button onClick={fetchProducts}>SASA</button>
       {data.length > 0 && data.map((product) => (
                             <li key={product.id} className="product-container">
                                 <div className="product-details">
