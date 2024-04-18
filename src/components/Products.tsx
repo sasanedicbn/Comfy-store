@@ -44,29 +44,33 @@ const Products = () => {
         })();
       }, []);
       
-    const priceHandler = (e) => {
-        setParams(prevParams => ({ ...prevParams, price: e.target.value }));
-    };
+    const handlerInputData = (event) =>{
+      const { name, value} = event.target;
+      setParams((prevState) => ({...prevState, [name]: value}))
+    }
+    // const priceHandler = (e) => {
+    //     setParams(prevParams => ({ ...prevParams, price: e.target.value }));
+    // };
 
-    const isCheckedHandler = () => {
-        setParams(prevParams => ({ ...prevParams, shipping: !prevParams.shipping }));
-    };
+    // const isCheckedHandler = () => {
+    //     setParams(prevParams => ({ ...prevParams, shipping: !prevParams.shipping }));
+    // };
 
-    const productHandler = (e) => {
-        setParams(prevParams => ({ ...prevParams, search: e.target.value }));
-    };
+    // const productHandler = (e) => {
+    //     setParams(prevParams => ({ ...prevParams, search: e.target.value }));
+    // };
 
-    const categoryHandler = (e) => {
-        setParams(prevParams => ({ ...prevParams, category: e.target.value }));
-    };
+    // const categoryHandler = (e) => {
+    //     setParams(prevParams => ({ ...prevParams, category: e.target.value }));
+    // };
 
-    const companyHandler = (e) => {
-        setParams(prevParams => ({ ...prevParams, company: e.target.value }));
-    };
+    // const companyHandler = (e) => {
+    //     setParams(prevParams => ({ ...prevParams, company: e.target.value }));
+    // };
 
-    const sortHandler = (e) => {
-        setParams(prevParams => ({ ...prevParams, order: e.target.value }));
-    };
+    // const sortHandler = (e) => {
+    //     setParams(prevParams => ({ ...prevParams, order: e.target.value }));
+    // };
     console.log(params)
   
     return (
@@ -84,7 +88,7 @@ const Products = () => {
                         name="search"
                         className="input input-bordered input-sm"
                         value={params.search}
-                        onChange={productHandler}
+                        onChange={(event) =>handlerInputData(event)}
                     />
                 </div>
                 <div className="form-control">
@@ -96,7 +100,7 @@ const Products = () => {
                         id="category"
                         className="select select-bordered select-sm"
                         value={params.category}
-                        onChange={categoryHandler}
+                        onChange={(event) => handlerInputData(event)}
                     >
                         <option value="all" >all</option>
                         <option value="Tables">Tables</option>
@@ -115,7 +119,7 @@ const Products = () => {
                         id="company"
                         className="select select-bordered select-sm"
                         value={params.company}
-                        onChange={companyHandler}
+                        onChange={(event) =>handlerInputData(event)}
                     >
                         <option value="all" >all</option>
                         <option value="Modenza">Modenza</option>
@@ -134,7 +138,7 @@ const Products = () => {
                         id="order"
                         className="select select-bordered select-sm"
                         value={params.order}
-                        onChange={sortHandler}
+                        onChange={(event) => handlerInputData(event)}
                     >
                         <option value="a-z" >a-z</option>
                         <option value="z-a">z-a</option>
@@ -155,7 +159,7 @@ const Products = () => {
                         className="range"
                         step="1000"
                         value={params.price}
-                        onChange={priceHandler}
+                        onChange={(event) => handlerInputData(event)}
                     />
                     <div className="">
                         <span className="min-price">0</span>
@@ -171,7 +175,7 @@ const Products = () => {
                         name="shipping"
                         className="checkbox "
                         checked={params.shipping}
-                        onChange={isCheckedHandler}
+                        onChange={(event) => handlerInputData(event)}
                     />
                 </div>
                 <button type="submit" className="btn btn-primary" onClick={searchProducts}>Search</button>
