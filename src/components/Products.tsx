@@ -93,8 +93,8 @@ const Products = () => {
                             <li key={product.id} className="product-container">
                                 <div className="product-details">
                                     <img src={product.attributes.image} alt={product.attributes.title} />
-                                    <p>{product.attributes.title}</p>
-                                    <p>{product.attributes.price}</p>
+                                    <p className="product-title">{product.attributes.title}</p>
+                                    <p>${product.attributes.price}</p>
                              </div>
                 </li>
          ))}
