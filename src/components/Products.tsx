@@ -1,5 +1,25 @@
+import { useState } from "react";
+
 const Products = () => {
+    const [data, setData] = useState([])
+    const fetchProducts = async () => {
+        try {
+          const response = await fetch('https://strapi-store-server.onrender.com/api/products?');
+          if (!response.ok) {
+            throw new Error('Network response was not ok.');
+          }
+          const data = await response.json();
+          setData(data.data)
+          console.log(data)
+          return data;
+        } catch (error) {
+          console.error('There was a problem with the fetch operation:', error);
+          return null; 
+        }
+      }
+      console.log(data)
     return(
+        <>
         <form
       method="get"
       className="product-search-form"
@@ -25,7 +45,7 @@ const Products = () => {
       </div>
       <div className="form-control">
         <label htmlFor="company" className="label">
-          <span className="label-text capitalize">select company</span>
+          <span className="label-text capitalize">Select company</span>
         </label>
         <select name="company" id="company" className="select select-bordered select-sm">
           <option value="all" >all</option>
@@ -38,7 +58,7 @@ const Products = () => {
       </div>
       <div className="form-control">
         <label htmlFor="order" className="label">
-          <span className="label-text capitalize">sort by</span>
+          <span className="label-text capitalize">Sort by</span>
         </label>
         <select name="order" id="order" className="select select-bordered select-sm">
           <option value="a-z" >a-z</option>
@@ -67,6 +87,19 @@ const Products = () => {
       <button type="submit" className="btn btn-primary ">Search</button>
       <button type="submit" className="btn btn-primary  green">Reset</button>
     </form>
+    <div className="products">
+      <button onClick={fetchProducts}>SASA</button>
+      {data.length > 0 && data.map((product) => (
+                            <li key={product.id} className="product-container">
+                                <div className="product-details">
+                                    <img src={product.attributes.image} alt={product.attributes.title} />
+                                    <p>{product.attributes.title}</p>
+                                    <p>{product.attributes.price}</p>
+                             </div>
+                </li>
+         ))}
+     </div>
+    </>
     )
 }
 export default Products;
