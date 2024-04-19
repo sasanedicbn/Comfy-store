@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { MetaData, Product } from "./TypecriptTypes";
 
 const Products = () => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<{ data: Product[]; meta?: MetaData }>([]);
     const [params, setParams] = useState({
         category: '',
         company: 'all',
@@ -10,9 +11,9 @@ const Products = () => {
         price: 100000,
         shipping: ''
     });
-   
     const [currentPage, setCurrentPage] = useState(1);
-    function buildURL (baseURL, params) {
+
+    function buildURL (baseURL: string, params: any) {
       const queryParams = [];
       for(const key in params){
         if(params[key]){
@@ -22,17 +23,15 @@ const Products = () => {
       }
       return `${baseURL}${queryParams.join('&')}`
     }
-    
+
     const fetchProducts = async () => {
         try {
             const baseURL = 'https://strapi-store-server.onrender.com/api/products?';
-            console.log('PARAMS:',params)
+            // console.log('PARAMS:',params)
             const url = buildURL(baseURL, params)
             // const url = `${baseURL}search=${params.search}&category=${params.category}&company=${params.company}&order=${params.order}&price=${params.price}&shipping=${params.shipping}`;
             console.log('url', url)
             const response = await fetch(url);
-            // console.log('RESPONSE', response)
-
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
             }
@@ -46,7 +45,7 @@ const Products = () => {
         }
     };
 
-    const searchProducts = async (event) => {
+    const searchProducts = async (event:FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         // setCurrentPage(1);
         await fetchProducts();
@@ -57,12 +56,12 @@ const Products = () => {
         })();
       }, []);
       
-    const handlerInputData = (event) =>{
+    const handlerInputData = (event:FormEvent<HTMLFormElement>) =>{
       const { name, value} = event.target;
       setParams((prevState) => ({...prevState, [name]: value}))
     }
 
-    const handlePageChange = (page) => {
+    const handlePageChange = (page:number) => {
         setCurrentPage(page);
     };
   
@@ -184,7 +183,7 @@ const Products = () => {
     <div className="pagination">
         <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
         <span>Page {currentPage}</span>
-        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === data.meta.pagination.pageCount}>Next</button>
+        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === data.meta.pagination.pageCount + 1}>Next</button>
     </div>
 )}
         </>
