@@ -79,12 +79,9 @@ const Products = () => {
                         value={params.category}
                         onChange={(event) => handlerInputData(event)}
                     >
-                        <option value="all" >all</option>
-                        <option value="Tables">Tables</option>
-                        <option value="Chairs">Chairs</option>
-                        <option value="Kids">Kids</option>
-                        <option value="Sofas">Sofas</option>
-                        <option value="Beds">Beds</option>
+                       {data.meta && data.meta.categories && data.meta.categories.map(category => (
+                          <option key={category} value={category}>{category}</option>
+                         ))}
                     </select>
                 </div>
                 <div className="form-control">
@@ -101,7 +98,6 @@ const Products = () => {
                          {data.meta && data.meta.companies && data.meta.companies.map(company => (
                           <option key={company} value={company}>{company}</option>
                          ))}
-
                     </select>
                 </div>
                 <div className="form-control">
