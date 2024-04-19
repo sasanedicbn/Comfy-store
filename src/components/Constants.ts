@@ -1,0 +1,1 @@
+export  const baseURL = 'https://strapi-store-server.onrender.com/api/products?';

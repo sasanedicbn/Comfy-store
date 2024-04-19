@@ -254,3 +254,6 @@ ul li:last-child{
 .products{
   width: 100%;
 }
+.active{
+  background-color: #10b981;
+}

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { MetaData, Product } from "./TypecriptTypes";
+import buildURL from "./helpers";
+import { baseURL } from "./Constants";
 
 const Products = () => {
     const [data, setData] = useState<{ data: Product[]; meta?: MetaData }>([]);
@@ -13,50 +15,39 @@ const Products = () => {
     });
     const [currentPage, setCurrentPage] = useState(1);
 
-    function buildURL (baseURL: string, params: any) {
-      const queryParams = [];
-      for(const key in params){
-        if(params[key]){
-           console.log('PARAMS[KEY]', params[key])
-            queryParams.push(`${key}=${(params[key])}`)
-        }
-      }
-      return `${baseURL}${queryParams.join('&')}`
-    }
+    
 
     const fetchProducts = async () => {
         try {
-            const baseURL = 'https://strapi-store-server.onrender.com/api/products?';
-            // console.log('PARAMS:',params)
-            const url = buildURL(baseURL, params)
-            // const url = `${baseURL}search=${params.search}&category=${params.category}&company=${params.company}&order=${params.order}&price=${params.price}&shipping=${params.shipping}`;
+            const url = buildURL(baseURL, {...params, page: currentPage})
             console.log('url', url)
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
             }
             const responseData = await response.json();
-            // console.log('reposnseDATA' ,responseData)
             setData(responseData);
+            console.log(responseData)
             return responseData;
+           
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
             return null;
         }
     };
 
-    const searchProducts = async (event:FormEvent<HTMLFormElement>) => {
+    const searchProducts = async (event) => {
         event.preventDefault();
-        // setCurrentPage(1);
+        setCurrentPage(1);
         await fetchProducts();
     };
     useEffect(() => {
         (async () => {
           await fetchProducts();
         })();
-      }, []);
+      }, [currentPage]);
       
-    const handlerInputData = (event:FormEvent<HTMLFormElement>) =>{
+    const handlerInputData = (event) =>{
       const { name, value} = event.target;
       setParams((prevState) => ({...prevState, [name]: value}))
     }
@@ -64,7 +55,20 @@ const Products = () => {
     const handlePageChange = (page:number) => {
         setCurrentPage(page);
     };
-  
+    const paginationButtons = () => {
+        if (!data.meta || !data.meta.pagination || !data.meta.pagination.pageCount) return null;
+
+        const maxCount = data.meta.pagination.pageCount;
+        const buttons = [];
+        for (let i = 1; i <= maxCount; i++) {
+            buttons.push(
+                <button key={i} onClick={() => handlePageChange(i)} className={currentPage === i ? 'active' : ''}>
+                    {i}
+                </button>
+            );
+        }
+        return buttons;
+    }
     return (
         <>
             <form
@@ -178,13 +182,12 @@ const Products = () => {
                     </li>
                 ))}
             </div>
-            
             {data.meta && data.meta?.pagination?.pageCount && (
-    <div className="pagination">
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-        <span>Page {currentPage}</span>
-        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === data.meta.pagination.pageCount + 1}>Next</button>
-    </div>
+        <div className="pagination">
+           <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+           {paginationButtons()}
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === data.meta.pagination.pageCount + 1}>Next</button>
+       </div>
 )}
         </>
     );
