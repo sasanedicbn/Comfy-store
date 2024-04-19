@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 const Products = () => {
     const [data, setData] = useState([]);
-    // https://strapi-store-server.onrender.com/api/products?search=&category=&company=all&order=a-z&price=100000
     const [params, setParams] = useState({
         category: '',
         company: 'all',
@@ -11,23 +10,34 @@ const Products = () => {
         price: 100000,
         shipping: ''
     });
+   
     const [currentPage, setCurrentPage] = useState(1);
-
-
+    function buildURL (baseURL, params) {
+      const queryParams = [];
+      for(const key in params){
+        if(params[key]){
+           console.log('PARAMS[KEY]', params[key])
+            queryParams.push(`${key}=${(params[key])}`)
+        }
+      }
+      return `${baseURL}${queryParams.join('&')}`
+    }
+    
     const fetchProducts = async () => {
         try {
             const baseURL = 'https://strapi-store-server.onrender.com/api/products?';
             console.log('PARAMS:',params)
-            const url = `${baseURL}search=${params.search}&category=${params.category}&company=${params.company}&order=${params.order}&price=${params.price}&shipping=${params.shipping}`;
+            const url = buildURL(baseURL, params)
+            // const url = `${baseURL}search=${params.search}&category=${params.category}&company=${params.company}&order=${params.order}&price=${params.price}&shipping=${params.shipping}`;
             console.log('url', url)
             const response = await fetch(url);
-            console.log('RESPONSE', response)
+            // console.log('RESPONSE', response)
 
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
             }
             const responseData = await response.json();
-            console.log('reposnseDATA' ,responseData)
+            // console.log('reposnseDATA' ,responseData)
             setData(responseData);
             return responseData;
         } catch (error) {
@@ -51,7 +61,6 @@ const Products = () => {
       const { name, value} = event.target;
       setParams((prevState) => ({...prevState, [name]: value}))
     }
-    console.log(params)
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -160,7 +169,6 @@ const Products = () => {
                 <button type="submit" className="btn btn-primary green">Reset</button>
             </form>
             <div className="products">
-            {console.log(data)}
                 {data.data && data.data.map((product) => (
                     <li key={product.id} className="product-container">
                         <div className="product-details">
@@ -184,3 +192,5 @@ const Products = () => {
 };
 
 export default Products;
+
+
