@@ -11,6 +11,8 @@ const Products = () => {
         price: 100000,
         shipping: ''
     });
+    const [currentPage, setCurrentPage] = useState(1);
+
 
     const fetchProducts = async () => {
         try {
@@ -34,10 +36,11 @@ const Products = () => {
         }
     };
 
-    async function searchProducts(event) {
-        event.preventDefault()
-       await  fetchProducts();
-    }
+    const searchProducts = async (event) => {
+        event.preventDefault();
+        // setCurrentPage(1);
+        await fetchProducts();
+    };
     useEffect(() => {
         (async () => {
           await fetchProducts();
@@ -49,6 +52,10 @@ const Products = () => {
       setParams((prevState) => ({...prevState, [name]: value}))
     }
     console.log(params)
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
   
     return (
         <>
@@ -164,6 +171,14 @@ const Products = () => {
                     </li>
                 ))}
             </div>
+            
+            {data.meta && data.meta?.pagination?.pageCount && (
+    <div className="pagination">
+        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+        <span>Page {currentPage}</span>
+        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === data.meta.pagination.pageCount}>Next</button>
+    </div>
+)}
         </>
     );
 };
