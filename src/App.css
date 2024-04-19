@@ -257,3 +257,9 @@ ul li:last-child{
 .active{
   background-color: #10b981;
 }
+.pagination{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}

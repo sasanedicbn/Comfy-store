@@ -60,6 +60,7 @@ const Products = () => {
 
         const maxCount = data.meta.pagination.pageCount;
         const buttons = [];
+        console.log('buttons',buttons)
         for (let i = 1; i <= maxCount; i++) {
             buttons.push(
                 <button key={i} onClick={() => handlePageChange(i)} className={currentPage === i ? 'active' : ''}>
