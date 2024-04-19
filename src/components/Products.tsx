@@ -26,7 +26,7 @@ const Products = () => {
             }
             const responseData = await response.json();
             console.log('reposnseDATA' ,responseData)
-            setData(responseData.data);
+            setData(responseData);
             return responseData;
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
@@ -98,12 +98,10 @@ const Products = () => {
                         value={params.company}
                         onChange={(event) =>handlerInputData(event)}
                     >
-                        <option value="all" >all</option>
-                        <option value="Modenza">Modenza</option>
-                        <option value="Luxora">Luxora</option>
-                        <option value="Artifex">Artifex</option>
-                        <option value="Comfora">Comfora</option>
-                        <option value="Homestead">Homestead</option>
+                         {data.meta && data.meta.companies && data.meta.companies.map(company => (
+                          <option key={company} value={company}>{company}</option>
+                         ))}
+
                     </select>
                 </div>
                 <div className="form-control">
@@ -159,7 +157,8 @@ const Products = () => {
                 <button type="submit" className="btn btn-primary green">Reset</button>
             </form>
             <div className="products">
-                {data.length > 0 && data.map((product) => (
+            {console.log(data)}
+                {data.data && data.data.map((product) => (
                     <li key={product.id} className="product-container">
                         <div className="product-details">
                             <img src={product.attributes.image} alt={product.attributes.title} />
