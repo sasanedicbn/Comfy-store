@@ -187,7 +187,7 @@ const Products = () => {
         <div className="pagination">
            <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
            {paginationButtons()}
-          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === data.meta.pagination.pageCount + 1}>Next</button>
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === data.meta.pagination.pageCount}>Next</button>
        </div>
 )}
         </>
